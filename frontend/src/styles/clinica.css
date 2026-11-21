@@ -1,0 +1,234 @@
+.clinica-modulo {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: 100%;
+}
+
+.clinica-topo,
+.clinica-formulario-topo,
+.clinica-listagem-topo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.clinica-topo h2,
+.clinica-formulario h3,
+.clinica-listagem h3 {
+  margin: 0 0 8px;
+  color: #173e32;
+}
+
+.clinica-topo p {
+  margin: 0;
+  color: #718078;
+  line-height: 1.6;
+}
+
+.clinica-botao-principal {
+  padding: 12px 20px;
+  background: #16845d;
+  color: #ffffff;
+  border: none;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.clinica-botao-principal:hover {
+  background: #106d4b;
+}
+
+.clinica-botao-principal:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.clinica-botao-secundario {
+  padding: 10px 16px;
+  background: #ffffff;
+  color: #16754f;
+  border: 1px solid #d7e5db;
+  border-radius: 9px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.clinica-botao-secundario:hover {
+  background: #edf7f0;
+}
+
+.clinica-indicadores {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.clinica-indicadores article {
+  padding: 24px;
+  background: #ffffff;
+  border: 1px solid #e3ebe6;
+  border-radius: 14px;
+  box-shadow: 0 6px 24px rgba(20, 70, 47, 0.04);
+}
+
+.clinica-indicadores span {
+  display: block;
+  margin-bottom: 12px;
+  color: #718078;
+  font-size: 14px;
+}
+
+.clinica-indicadores strong {
+  color: #173e32;
+  font-size: 30px;
+}
+
+.clinica-formulario,
+.clinica-listagem {
+  padding: 26px;
+  background: #ffffff;
+  border: 1px solid #e3ebe6;
+  border-radius: 16px;
+  box-shadow: 0 6px 24px rgba(20, 70, 47, 0.04);
+}
+
+.clinica-campos {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+  margin-top: 24px;
+}
+
+.clinica-campos label {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  color: #355448;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.clinica-campo-largo {
+  grid-column: 1 / -1;
+}
+
+.clinica-campos select,
+.clinica-campos textarea,
+.clinica-listagem-topo input {
+  width: 100%;
+  padding: 12px 14px;
+  background: #ffffff;
+  color: #243d32;
+  border: 1px solid #d7e5db;
+  border-radius: 9px;
+  font: inherit;
+  box-sizing: border-box;
+}
+
+.clinica-campos textarea {
+  resize: vertical;
+  line-height: 1.6;
+}
+
+.clinica-campos select:focus,
+.clinica-campos textarea:focus,
+.clinica-listagem-topo input:focus {
+  outline: 2px solid #8ac9aa;
+  border-color: #16845d;
+}
+
+.clinica-formulario-acoes {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 24px;
+}
+
+.clinica-listagem-topo {
+  margin-bottom: 20px;
+}
+
+.clinica-listagem-topo input {
+  max-width: 320px;
+}
+
+.clinica-tabela-container {
+  overflow-x: auto;
+}
+
+.clinica-tabela {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.clinica-tabela th {
+  padding: 14px;
+  background: #f0f7f2;
+  color: #41614f;
+  font-size: 13px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.clinica-tabela td {
+  padding: 16px 14px;
+  border-bottom: 1px solid #edf1ee;
+  color: #34483e;
+  font-size: 14px;
+  vertical-align: top;
+  line-height: 1.5;
+}
+
+.clinica-tabela tr:hover td {
+  background: #fafdfa;
+}
+
+.clinica-vazio {
+  padding: 32px 12px;
+  color: #7c8d81;
+  text-align: center;
+}
+
+.clinica-alerta {
+  padding: 14px 18px;
+  border-radius: 10px;
+  font-size: 14px;
+}
+
+.clinica-alerta.erro {
+  background: #fff0ee;
+  color: #ad3b30;
+}
+
+.clinica-alerta.sucesso {
+  background: #e8f7ed;
+  color: #16754f;
+}
+
+@media (max-width: 900px) {
+  .clinica-topo,
+  .clinica-formulario-topo,
+  .clinica-listagem-topo {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .clinica-listagem-topo input {
+    max-width: none;
+  }
+}
+
+@media (max-width: 650px) {
+  .clinica-indicadores,
+  .clinica-campos {
+    grid-template-columns: 1fr;
+  }
+
+  .clinica-formulario,
+  .clinica-listagem {
+    padding: 18px;
+  }
+}

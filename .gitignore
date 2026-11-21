@@ -1,0 +1,33 @@
+# Dependências
+node_modules/
+**/node_modules/
+
+# Compilações
+dist/
+**/dist/
+
+# Configurações privadas
+.env
+.env.*
+**/.env
+**/.env.*
+
+# Backups
+backups/
+**/backups/
+*.backup
+*.backup-*
+*.dump
+*.tar.gz
+
+# Logs e arquivos temporários
+*.log
+*.tmp
+
+# Configurações locais
+.vscode/
+.idea/
+
+# Cobertura de testes
+coverage/
+**/coverage/

@@ -1,0 +1,86 @@
+PETAGENDA — INSTRUÇÕES DE INSTALAÇÃO
+
+REQUISITOS
+- Node.js e npm
+- PostgreSQL
+- Um editor de código, como o VS Code
+
+1. BANCO DE DADOS
+
+Crie um banco de dados vazio no PostgreSQL.
+
+Importe o arquivo:
+
+database/schema-atualizado.sql
+
+O banco deve permitir que o usuário configurado no backend
+consulte, cadastre, atualize e exclua registros nas tabelas,
+além de utilizar as sequências.
+
+2. CONFIGURAR O BACKEND
+
+Entre na pasta backend.
+
+Crie um arquivo chamado .env com:
+
+NODE_ENV=development
+PORT=3001
+
+DB_HOST=127.0.0.1
+DB_PORT=5432
+DB_NAME=nome_do_banco
+DB_USER=usuario_do_postgresql
+DB_PASSWORD=senha_do_postgresql
+
+JWT_SECRET=chave_aleatoria_segura
+
+Substitua os valores de exemplo pelas configurações locais.
+
+Para gerar uma chave JWT:
+
+node -e "console.log(require('node:crypto').randomBytes(48).toString('hex'))"
+
+3. INSTALAR DEPENDÊNCIAS
+
+No terminal da pasta backend:
+
+npm ci
+
+No terminal da pasta frontend:
+
+npm ci
+
+4. CRIAR O PRIMEIRO ADMINISTRADOR
+
+Na pasta backend:
+
+node scripts/criar-administrador-inicial.mjs
+
+Informe nome, e-mail e senha.
+
+5. INICIAR O BACKEND
+
+Na pasta backend:
+
+npm run dev
+
+6. INICIAR O FRONTEND
+
+Abra outro terminal na pasta frontend:
+
+npm run dev
+
+7. ACESSAR O SISTEMA
+
+Abra no navegador:
+
+http://localhost:5173
+
+Entre com a conta administrativa criada anteriormente.
+
+OBSERVAÇÕES
+
+- O projeto não inclui dados pessoais ou senhas de acesso.
+- O banco de dados deve ser configurado no computador de destino.
+- O administrador inicial é criado individualmente.
+- Mantenha os dois servidores em execução durante o uso.

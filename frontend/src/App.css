@@ -1,0 +1,37 @@
+.painel-provisorio {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  min-height: 100vh;
+  padding: 30px;
+  text-align: center;
+}
+
+.painel-provisorio h1 {
+  margin: 0;
+  color: #173e65;
+  font-size: 40px;
+}
+
+.painel-provisorio p {
+  max-width: 480px;
+  color: #667789;
+  line-height: 1.7;
+}
+
+.painel-provisorio button {
+  padding: 13px 25px;
+  border: none;
+  border-radius: 8px;
+  background: #1d527c;
+  color: #ffffff;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.painel-provisorio button:hover {
+  background: #153f61;
+}
