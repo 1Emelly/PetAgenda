@@ -84,3 +84,6 @@ OBSERVAÇÕES
 - O banco de dados deve ser configurado no computador de destino.
 - O administrador inicial é criado individualmente.
 - Mantenha os dois servidores em execução durante o uso.
+
+Ambiente de homologação:
+A branch release é utilizada para preparar e verificar versões antes da publicação em produção.
