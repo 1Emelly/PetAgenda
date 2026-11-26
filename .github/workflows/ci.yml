@@ -1,0 +1,128 @@
+name: PetAgenda CI
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+      - release
+  pull_request:
+    branches:
+      - main
+      - develop
+      - release
+
+jobs:
+  frontend:
+    name: Build Frontend
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+
+    steps:
+      - name: Baixar codigo
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Instalar dependencias
+        run: npm ci
+
+      - name: Compilar frontend
+        run: npm run build
+
+  backend:
+    name: Build Backend
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
+
+    steps:
+      - name: Baixar codigo
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: backend/package-lock.json
+
+      - name: Instalar dependencias
+        run: npm ci
+
+      - name: Compilar backend
+        run: npm run build
+
+  tests:
+    name: Automated Tests
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_DB: petagenda_test
+          POSTGRES_USER: petagenda_test_user
+          POSTGRES_PASSWORD: petagenda_ci_test_password
+
+        ports:
+          - 5432:5432
+
+        options: >-
+          --health-cmd "pg_isready -U petagenda_test_user -d petagenda_test"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    env:
+      NODE_ENV: test
+      DB_HOST: 127.0.0.1
+      DB_PORT: 5432
+      DB_NAME: petagenda_test
+      DB_USER: petagenda_test_user
+      DB_PASSWORD: petagenda_ci_test_password
+      DEV_RECOVERY_ENABLED: "false"
+
+    defaults:
+      run:
+        working-directory: backend
+
+    steps:
+      - name: Baixar codigo
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: backend/package-lock.json
+
+      - name: Instalar dependencias
+        run: npm ci
+
+      - name: Preparar banco de dados de testes
+        run: |
+          docker exec -i "${{ job.services.postgres.id }}" \
+            psql \
+            -U petagenda_test_user \
+            -d petagenda_test \
+            -v ON_ERROR_STOP=1 \
+            < ../database/schema-atualizado.sql
+
+      - name: Configurar chave de autenticacao dos testes
+        run: |
+          JWT_SECRET="$(openssl rand -hex 32)"
+          echo "::add-mask::$JWT_SECRET"
+          echo "JWT_SECRET=$JWT_SECRET" >> "$GITHUB_ENV"
+
+      - name: Executar testes automatizados
+        run: npm test

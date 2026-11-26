@@ -84,3 +84,6 @@ OBSERVAÇÕES
 - O banco de dados deve ser configurado no computador de destino.
 - O administrador inicial é criado individualmente.
 - Mantenha os dois servidores em execução durante o uso.
+
+Controle de versões:
+Este projeto utiliza Git e possui as branches main, develop e release.
