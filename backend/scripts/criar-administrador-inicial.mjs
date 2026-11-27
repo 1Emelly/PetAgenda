@@ -7,7 +7,26 @@ import "dotenv/config";
 
 const { Pool } = pg;
 
-const pool = new Pool({
+const provisionamentoVercel = process.argv.includes("--vercel");
+
+if (provisionamentoVercel && process.env.VERCEL_ENV !== "production") {
+  throw new Error("O provisionamento da Vercel exige o ambiente Production.");
+}
+
+const databaseUrl = provisionamentoVercel ? process.env.DATABASE_URL?.trim() : null;
+if (provisionamentoVercel && !databaseUrl) {
+  throw new Error("DATABASE_URL de Production não foi disponibilizada.");
+}
+
+const conexao = databaseUrl ? new URL(databaseUrl) : null;
+if (conexao) {
+  conexao.searchParams.set("sslmode", "verify-full");
+}
+
+const pool = new Pool(conexao ? {
+  connectionString: conexao.toString(),
+  ssl: { rejectUnauthorized: true }
+} : {
   host: process.env.DB_HOST,
   port: Number(process.env.DB_PORT || 5432),
   database: process.env.DB_NAME,
@@ -15,7 +34,7 @@ const pool = new Pool({
   password: process.env.DB_PASSWORD
 });
 
-const terminal = readline.createInterface({
+const terminal = provisionamentoVercel ? null : readline.createInterface({
   input,
   output
 });
@@ -48,16 +67,20 @@ async function criarAdministradorInicial() {
     console.log("\nConfiguração inicial do PetAgenda\n");
 
     const nome = (
-      await terminal.question("Nome do administrador: ")
+      provisionamentoVercel
+        ? process.env.PETAGENDA_ADMIN_NOME ?? ""
+        : await terminal.question("Nome do administrador: ")
     ).trim();
 
     const email = (
-      await terminal.question("E-mail: ")
+      provisionamentoVercel
+        ? process.env.PETAGENDA_ADMIN_EMAIL ?? ""
+        : await terminal.question("E-mail: ")
     ).trim().toLowerCase();
 
-    const senha = await terminal.question(
-      "Senha (mínimo de 12 caracteres): "
-    );
+    const senha = provisionamentoVercel
+      ? process.env.PETAGENDA_ADMIN_SENHA ?? ""
+      : await terminal.question("Senha (mínimo de 12 caracteres): ");
 
     if (nome.length < 3) {
       throw new Error(
@@ -120,6 +143,6 @@ try {
 
   process.exitCode = 1;
 } finally {
-  terminal.close();
+  terminal?.close();
   await pool.end();
 }
